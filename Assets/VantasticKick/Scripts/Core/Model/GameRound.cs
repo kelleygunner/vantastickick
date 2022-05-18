@@ -13,6 +13,7 @@ namespace VantasticKick.Core
 
         private GameConfig _gameConfig;
         private int _attempts;
+        private int _lastShotScore;
         private int _score;
         private int _combo;
 
@@ -21,24 +22,36 @@ namespace VantasticKick.Core
             _gameConfig = config;
             _attempts = 0;
             _score = 0;
+            _lastShotScore = 0;
             _combo = 0;
+        }
+
+        public void UpdateRound()
+        {
+            OnAttemptsChanged?.Invoke(_attempts, _gameConfig.gameround.attempts);
+            OnScoreChanged?.Invoke(_score, _lastShotScore);
+            OnCombo?.Invoke(_combo);
+
+            if (_attempts == _gameConfig.gameround.attempts)
+            {
+                OnRoundFinish?.Invoke();
+            }
         }
 
         public void RegisterShot(bool isOnTarget)
         {
-            int shotScore = 0;
             if (isOnTarget)
             {
-                shotScore += _gameConfig.gameround.basicPoints;
+                _lastShotScore += _gameConfig.gameround.basicPoints;
                 
                 int lastComboIndex = _gameConfig.gameround.comboBonusPoints.Length - 1;
                 if (_combo > lastComboIndex)
                 {
-                    shotScore += _gameConfig.gameround.comboBonusPoints[lastComboIndex];
+                    _lastShotScore += _gameConfig.gameround.comboBonusPoints[lastComboIndex];
                 }
                 else
                 {
-                    shotScore += _gameConfig.gameround.comboBonusPoints[_combo];
+                    _lastShotScore += _gameConfig.gameround.comboBonusPoints[_combo];
                 }
                 _combo++;
             }
@@ -48,16 +61,9 @@ namespace VantasticKick.Core
             }
 
             _attempts++;
-            _score += shotScore;
+            _score += _lastShotScore;
             
-            OnAttemptsChanged?.Invoke(_attempts, _gameConfig.gameround.attempts);
-            OnScoreChanged?.Invoke(_score, shotScore);
-            OnCombo?.Invoke(_combo);
-
-            if (_attempts == _gameConfig.gameround.attempts)
-            {
-                OnRoundFinish?.Invoke();
-            }
+            UpdateRound();
         }
     }
 }

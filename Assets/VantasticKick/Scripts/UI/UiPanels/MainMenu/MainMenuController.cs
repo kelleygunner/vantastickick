@@ -14,6 +14,11 @@ namespace VantasticKick.UI
         
         public MainMenuController(MainMenuView view) : base(view)
         {
+            
+        }
+
+        public override void OnOpen()
+        {
             var mainMenuView = _view as MainMenuView;
             if (mainMenuView != null)
             {
@@ -21,7 +26,7 @@ namespace VantasticKick.UI
             }
         }
 
-        ~MainMenuController()
+        public override void OnClose()
         {
             var mainMenuView = _view as MainMenuView;
             if (mainMenuView != null)

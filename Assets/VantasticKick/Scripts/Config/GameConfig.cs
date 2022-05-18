@@ -10,13 +10,6 @@ namespace VantasticKick.Config
         
         public static GameConfig LoadAt(string path)
         {
-
-            GameConfig c = new GameConfig();
-            c.gameplay = new GameplayConfig();
-            c.gameround = new GameRoundConfig();
-            var t = JsonConvert.SerializeObject(c);
-            Debug.Log(t);
-            
             var jsonFile = Resources.Load<TextAsset>(path);
             if (jsonFile == null)
             {

@@ -16,12 +16,24 @@ namespace VantasticKick.UI.UiFramework
         {
             _view.Init(model);
             _view.Open(onComplete);
+            OnOpen();
         }
 
         public void Close(Action onComplete = null)
         {
             _view.Close(onComplete);
+            OnClose();
         }
 
+        public virtual void OnOpen()
+        {
+            
+        }
+
+        public virtual void OnClose()
+        {
+            
+        }
+        
     }
 }

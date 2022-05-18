@@ -9,7 +9,6 @@ namespace VantasticKick.Installers
         public override void InstallBindings()
         {
             var gameConfig = GameConfig.LoadAt("Config/game_config");
-            Debug.Log(gameConfig.gameplay.ballVelocity);
             Container.Bind<GameConfig>().FromInstance(gameConfig).AsSingle().NonLazy();
         }
     }
