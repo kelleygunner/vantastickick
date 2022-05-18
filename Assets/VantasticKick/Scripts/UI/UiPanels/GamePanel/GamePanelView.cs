@@ -15,6 +15,7 @@ namespace VantasticKick.UI
         [SerializeField] private TextMeshProUGUI _attemptsText;
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private RectTransform _statPanel;
+        [SerializeField] private CountDown _countDown;
 
         protected override void OnOpen(Action onComplete = null)
         {
@@ -30,7 +31,10 @@ namespace VantasticKick.UI
                 gameRound.UpdateRound();
             }
 
-            StartCoroutine(TestRound());
+            _countDown.StartCount(3, () =>
+            {
+                StartCoroutine(TestRound()); 
+            });
 
             _statPanel.anchoredPosition = 200 * Vector3.up;
             _statPanel.DOAnchorPos(Vector2.zero, 0.33f).SetEase(Ease.InBack).onComplete += () =>
@@ -63,6 +67,11 @@ namespace VantasticKick.UI
         
         private void OnScoreChanged(int shotScore, int totalScore)
         {
+            if (shotScore > 0)
+            {
+                _scoreText.transform.localScale = 1.1f * Vector3.one;
+                _scoreText.transform.DOScale(Vector3.one, 0.33f).SetEase(Ease.InBack);
+            }
             _scoreText.text = $"Score: {totalScore}";
         }
         

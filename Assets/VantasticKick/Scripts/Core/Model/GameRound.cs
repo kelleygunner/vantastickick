@@ -29,7 +29,7 @@ namespace VantasticKick.Core
         public void UpdateRound()
         {
             OnAttemptsChanged?.Invoke(_attempts, _gameConfig.gameround.attempts);
-            OnScoreChanged?.Invoke(_score, _lastShotScore);
+            OnScoreChanged?.Invoke(_lastShotScore,_score);
             OnCombo?.Invoke(_combo);
 
             if (_attempts == _gameConfig.gameround.attempts)
@@ -40,6 +40,7 @@ namespace VantasticKick.Core
 
         public void RegisterShot(bool isOnTarget)
         {
+            _lastShotScore = 0;
             if (isOnTarget)
             {
                 _lastShotScore += _gameConfig.gameround.basicPoints;

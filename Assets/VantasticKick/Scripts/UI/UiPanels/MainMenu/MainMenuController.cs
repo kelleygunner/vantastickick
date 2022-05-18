@@ -31,7 +31,7 @@ namespace VantasticKick.UI
             var mainMenuView = _view as MainMenuView;
             if (mainMenuView != null)
             {
-                mainMenuView.OnPlayClick += OnPlayClick;
+                mainMenuView.OnPlayClick -= OnPlayClick;
             }
         }
 
