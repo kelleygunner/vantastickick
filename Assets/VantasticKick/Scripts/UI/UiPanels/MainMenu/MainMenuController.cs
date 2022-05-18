@@ -16,7 +16,6 @@ namespace VantasticKick.UI
             {
                 mainMenuView.OnPlayClick += OnPlayClick;
             }
-            Debug.Log("Done");
         }
 
         ~MainMenuController()
