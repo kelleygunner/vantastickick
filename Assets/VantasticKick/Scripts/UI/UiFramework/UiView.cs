@@ -5,7 +5,7 @@ namespace VantasticKick.UI.UiFramework
 {
     public abstract class UiView : MonoBehaviour
     {
-        private UiModel _model;
+        protected UiModel _model;
         
         public void Init(UiModel model = null)
         {

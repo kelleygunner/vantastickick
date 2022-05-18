@@ -4,16 +4,16 @@ namespace VantasticKick.UI.UiFramework
 {
     public abstract class UiController
     {
-        private UiView _view;
+        protected UiView _view;
 
-        public UiController(UiView view, UiModel model = null)
+        public UiController(UiView view)
         {
             _view = view;
-            _view.Init(model);
         }
         
-        public void Open(Action onComplete = null)
+        public void Open(UiModel model = null, Action onComplete = null)
         {
+            _view.Init(model);
             _view.Open(onComplete);
         }
 
