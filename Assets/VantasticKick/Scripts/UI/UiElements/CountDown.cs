@@ -22,7 +22,7 @@ namespace VantasticKick.UI
                 _counterText.text = $"{seconds}";
                 _counterText.transform.localPosition = Vector3.right * -100;
                 _counterText.DOFade(1, 0);
-                _counterText.transform.DOLocalMove(Vector3.right * 100, 0.33f).SetEase(Ease.OutBack);
+                _counterText.transform.DOLocalMove(Vector3.zero, 0.33f).SetEase(Ease.OutBack);
                 _counterText.DOFade(0, 0.4f).SetEase(Ease.InBack);
                 yield return new WaitForSeconds(1);
                 seconds--;
