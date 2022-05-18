@@ -5,6 +5,7 @@ namespace VantasticKick.UI.UiFramework
     public abstract class UiController
     {
         protected UiView _view;
+        protected UiModel _model;
 
         public UiController(UiView view)
         {
