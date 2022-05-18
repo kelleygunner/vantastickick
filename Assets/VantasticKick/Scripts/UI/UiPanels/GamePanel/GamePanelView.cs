@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using VantasticKick.Core;
@@ -13,6 +14,7 @@ namespace VantasticKick.UI
         
         [SerializeField] private TextMeshProUGUI _attemptsText;
         [SerializeField] private TextMeshProUGUI _scoreText;
+        [SerializeField] private RectTransform _statPanel;
 
         protected override void OnOpen(Action onComplete = null)
         {
@@ -29,14 +31,16 @@ namespace VantasticKick.UI
             }
 
             StartCoroutine(TestRound());
-            
-            onComplete?.Invoke();
+
+            _statPanel.anchoredPosition = 200 * Vector3.up;
+            _statPanel.DOAnchorPos(Vector2.zero, 0.33f).SetEase(Ease.InBack).onComplete += () =>
+            {
+                onComplete?.Invoke();
+            };
         }
 
         protected override void OnClose(Action onComplete = null)
         {
-            gameObject.SetActive(false);
-            
             if (_model is GameRound gameRound)
             {
                 gameRound.OnAttemptsChanged -= OnAttemptsChanged;
@@ -44,7 +48,12 @@ namespace VantasticKick.UI
                 gameRound.OnCombo -= OnCombo;
                 gameRound.OnRoundFinish -= OnRoundFinish;
             }
-            onComplete?.Invoke();
+            
+            _statPanel.DOAnchorPos(200 * Vector2.up, 0.33f).SetEase(Ease.OutBack).onComplete += () =>
+            {
+                gameObject.SetActive(false);
+                onComplete?.Invoke();
+            };
         }
         
         private void OnAttemptsChanged(int attempts, int maxAttempts)
