@@ -20,10 +20,7 @@ namespace VantasticKick.Core
         public GameRound(GameConfig config)
         {
             _gameConfig = config;
-            _attempts = 0;
-            _score = 0;
-            _lastShotScore = 0;
-            _combo = 0;
+            Clear();
         }
 
         public void UpdateRound()
@@ -65,6 +62,14 @@ namespace VantasticKick.Core
             _score += _lastShotScore;
             
             UpdateRound();
+        }
+
+        public void Clear()
+        {
+            _attempts = 0;
+            _score = 0;
+            _lastShotScore = 0;
+            _combo = 0;
         }
     }
 }

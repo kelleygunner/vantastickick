@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using VantasticKick.Core;
 using VantasticKick.UI.UiFramework;
+using VantasticKick.Utils;
 
 namespace VantasticKick.UI
 {
@@ -15,8 +17,9 @@ namespace VantasticKick.UI
         [SerializeField] private TextMeshProUGUI _attemptsText;
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private RectTransform _statPanel;
-        [SerializeField] private CountDown _countDown;
+        [SerializeField] private Countdown countdown;
 
+        public Countdown Countdown => countdown; 
         protected override void OnOpen(Action onComplete = null)
         {
             gameObject.SetActive(true);
@@ -30,11 +33,6 @@ namespace VantasticKick.UI
                 
                 gameRound.UpdateRound();
             }
-
-            _countDown.StartCount(3, () =>
-            {
-                StartCoroutine(TestRound()); 
-            });
 
             _statPanel.anchoredPosition = 200 * Vector3.up;
             _statPanel.DOAnchorPos(Vector2.zero, 0.33f).SetEase(Ease.InBack).onComplete += () =>
@@ -86,33 +84,6 @@ namespace VantasticKick.UI
         private void OnRoundFinish()
         {
             OnGamePanelHidden?.Invoke();
-        }
-
-        private IEnumerator TestRound()
-        {
-            if (_model is GameRound gameRound)
-            {
-                yield return new WaitForSeconds(1f);
-                gameRound.RegisterShot(true);
-                yield return new WaitForSeconds(1f);
-                gameRound.RegisterShot(false);
-                yield return new WaitForSeconds(1f);
-                gameRound.RegisterShot(true);
-                yield return new WaitForSeconds(1f);
-                gameRound.RegisterShot(true);
-                yield return new WaitForSeconds(1f);
-                gameRound.RegisterShot(true);
-                yield return new WaitForSeconds(1f);
-                gameRound.RegisterShot(false);
-                yield return new WaitForSeconds(1f);
-                gameRound.RegisterShot(false);
-                yield return new WaitForSeconds(1f);
-                gameRound.RegisterShot(true);
-                yield return new WaitForSeconds(1f);
-                gameRound.RegisterShot(true);
-                yield return new WaitForSeconds(1f);
-                gameRound.RegisterShot(false);   
-            }
         }
     }
 }

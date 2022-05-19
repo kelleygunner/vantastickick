@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace VantasticKick.UI
 {
-    public class CountDown : MonoBehaviour
+    public class Countdown : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _counterText;
         
