@@ -11,14 +11,18 @@ namespace VantasticKick.UI
 
         [SerializeField] private Button _playButton;
 
-        private void Start()
+        protected override void OnOpen(Action onComplete = null)
         {
+            gameObject.SetActive(true);
             _playButton.onClick.AddListener(()=>OnPlayClick?.Invoke());
+            onComplete?.Invoke();
         }
 
-        private void OnDestroy()
+        protected override void OnClose(Action onComplete = null)
         {
+            gameObject.SetActive(false);
             _playButton.onClick.RemoveAllListeners();
+            onComplete?.Invoke();
         }
     }
 }

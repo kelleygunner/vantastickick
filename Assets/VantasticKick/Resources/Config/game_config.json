@@ -1,0 +1,13 @@
+{
+  "gameplay": 
+  {
+    "ballVelocity":1.0,
+    "scatterFactor":1.0
+  },
+  "gameround":
+  {
+    "attempts":10,
+    "basicPoints":100,
+    "comboBonusPoints":[0,20,50,150,400]
+  }
+}
