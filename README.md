@@ -45,5 +45,5 @@ So we can avoid using View classes (which are MonoBehaviours) to test Business l
 (Without input and Visual part).
 - SOLID.
 The project follows SOLID principles where it's really needed (There are no complications).
-Most of the classes have only responsibility. They don't have direct connections. They arent overloaded by
+Most of the classes have only one responsibility. They don't have direct connections between each other. They arent overloaded by
 multifunctional logic.
