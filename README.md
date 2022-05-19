@@ -13,7 +13,7 @@ Engine Version: Unity 2021.2.18
 Target Platform: Android
 # Project Structure
 Open scene Scenes/Main.
-Project is being setup in System/SceneContent
+Project is being setup in System/SceneContent.
 There are 3 Installers:
 - Config Installer
 - Game Installer
