@@ -12,17 +12,17 @@ Create a full-loop game
 Engine Version: Unity 2021.2.18
 Target Platform: Android
 # Project Structure
-Open scene Scenes/Main
+Open scene Scenes/Main.
 Project is being setup in System/SceneContent
 There are 3 Installers:
 - Config Installer
 - Game Installer
 - UI Installer
 # Game Loop
-UI Installer opens Main Menu screen
-By Pressing Play button user starts the game.
-When user runs out of attempts, user goes to Finish screen
-By pressing Finish button, player opens Main Menu
+- UI Installer opens Main Menu screen
+- By Pressing Play button user starts the game.
+- When user runs out of attempts, user goes to Finish screen
+- By pressing Finish button, player opens Main Menu
 # Architecture features
 - Dependency Inversion pattern
 - MVC pattern
