@@ -8,6 +8,21 @@ Create a full-loop game
 - UI
 - Animations
 - Configuration
+# Dev Info
+Engine Version: Unity 2021.2.18
+Target Platform: Android
+# Project Structure
+Open scene Scenes/Main
+Project is being setup in System/SceneContent
+There are 3 Installers:
+- Config Installer
+- Game Installer
+- UI Installer
+# Game Loop
+UI Installer opens Main Menu screen
+By Pressing Play button user starts the game.
+When user runs out of attempts, user goes to Finish screen
+By pressing Finish button, player opens Main Menu
 # Architecture features
 - Dependency Inversion pattern
 - MVC pattern
@@ -15,6 +30,7 @@ Create a full-loop game
 # Technologies
 - Extenject (ex. Zenject)
 - DOTween
+- Json.Net
 # Implementation
 # Architecture
 - DI.
@@ -29,7 +45,7 @@ For example user makes a shot, so
 2. Model calculates score, combo etc and updates View
 3. View shows animations, updates score counters etc, than updates controller, that
 visual part is done, so controller can handle user input again.
-- UI Framework.
+- UI.
 For making each UI screen to be easier there is UiFramework, that provides abstract classes:
 UiController -> UiModel -> UiView.
 In order to add a new screen, developer should create 3 child classes (Model could be null),
