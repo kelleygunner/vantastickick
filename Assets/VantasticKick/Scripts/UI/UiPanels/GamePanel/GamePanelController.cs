@@ -6,9 +6,8 @@ namespace VantasticKick.UI
 {
     public class GamePanelController : UiController
     {
-        [Inject] private MainMenuController _mainMenuController;
         [Inject] private GameRoundController _gameRoundController;
-        
+
         public GamePanelController(GamePanelView view) : base(view)
         {
             
@@ -39,7 +38,7 @@ namespace VantasticKick.UI
         {
             Close(() =>
             {
-                _mainMenuController.Open();
+                
             });
         }
     }

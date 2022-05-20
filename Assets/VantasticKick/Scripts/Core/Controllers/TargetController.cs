@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using VantasticKick.Utils;
 using Zenject;
@@ -14,7 +15,8 @@ namespace VantasticKick.Core
         [SerializeField] private TargetTrigger topRightTarget;
         [SerializeField] private TargetTrigger bottomLeftTarget;
         [SerializeField] private TargetTrigger bottomRightTarget;
-
+        [SerializeField] private TargetTrigger centerTarget;
+        
         private List<TargetSet> _targetSets;
         private Circle<TargetSet> _excludeCircle;
 
@@ -25,30 +27,33 @@ namespace VantasticKick.Core
             //TODO: Create from config
             _targetSets = new List<TargetSet>()
             {
-                new (topLeftTarget.gameObject),//Top Left
-                new (topRightTarget.gameObject),//Top Right
-                new (bottomLeftTarget.gameObject),//Bottom Left
-                new (bottomRightTarget.gameObject),//Bottom Right
-                new (topLeftTarget.gameObject,topRightTarget.gameObject),//Top ones
-                new (bottomLeftTarget.gameObject, bottomRightTarget.gameObject),//Bottom ones
-                new (topLeftTarget.gameObject, bottomLeftTarget.gameObject),//Left ones
-                new (topRightTarget.gameObject, bottomRightTarget.gameObject),//Right ones
+                new (topLeftTarget),//Top Left
+                new (topRightTarget),//Top Right
+                new (bottomLeftTarget),//Bottom Left
+                new (bottomRightTarget),//Bottom Right
+                new (topLeftTarget,topRightTarget),//Top
+                new (bottomLeftTarget, bottomRightTarget),//Bottom
+                new (topLeftTarget, bottomLeftTarget),//Left
+                new (topRightTarget, bottomRightTarget),//Right
+                new (centerTarget),//Center
+                new (topLeftTarget,topRightTarget, centerTarget)//Top,Center
             };
 
+            //Circle data structure to store last used sets to exclude it
             _excludeCircle = new Circle<TargetSet>(_targetSets.Count / 2);
 
             _container.Bind<TargetTrigger>().FromInstance(topLeftTarget);
             _container.Bind<TargetTrigger>().FromInstance(topRightTarget);
             _container.Bind<TargetTrigger>().FromInstance(bottomLeftTarget);
             _container.Bind<TargetTrigger>().FromInstance(bottomRightTarget);
+            _container.Bind<TargetTrigger>().FromInstance(centerTarget);
+            
+            RemoveTargets();
         }
 
         public void ActivateNextTargetSet()
         {
-            topLeftTarget.gameObject.SetActive(false);
-            topRightTarget.gameObject.SetActive(false);
-            bottomLeftTarget.gameObject.SetActive(false);
-            bottomRightTarget.gameObject.SetActive(false);
+            RemoveTargets();
 
             var elementToPick = _excludeCircle.ExcludeCircleFrom(_targetSets).ToList();
             var randomNumber = Random.Range(0, elementToPick.Count);
@@ -57,12 +62,21 @@ namespace VantasticKick.Core
             
             _excludeCircle.Add(currentSet);
         }
+
+        public void RemoveTargets()
+        {
+            topLeftTarget.gameObject.SetActive(false);
+            topRightTarget.gameObject.SetActive(false);
+            bottomLeftTarget.gameObject.SetActive(false);
+            bottomRightTarget.gameObject.SetActive(false);
+            centerTarget.gameObject.SetActive(false);
+        }
     }
     public class TargetSet
     {
-        private GameObject[] _targets;
+        private TargetTrigger[] _targets;
         
-        public TargetSet(params GameObject[] targets)
+        public TargetSet(params TargetTrigger[] targets)
         {
             _targets = targets;
         }
@@ -71,7 +85,8 @@ namespace VantasticKick.Core
         {
             foreach (var target in _targets)
             {
-                target.SetActive(true);
+                target.gameObject.SetActive(true);
+                target.Open();
             }
         }
     }

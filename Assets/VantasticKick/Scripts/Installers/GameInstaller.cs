@@ -16,7 +16,7 @@ namespace VantasticKick.Installers
             Container.Bind<GameRoundController>().FromNew().AsSingle().NonLazy();
             Container.Bind<KickController>().FromInstance(_kickController).AsSingle().NonLazy();
             Container.Bind<IGameInput>().To<MobileInput>().FromInstance(_input).AsSingle().NonLazy();
-            Container.Bind<GameRound>().FromNew().AsSingle().NonLazy();
+            Container.Bind<GameRoundModel>().FromNew().AsSingle().NonLazy();
         }
     }
 }

@@ -10,8 +10,8 @@ namespace VantasticKick.UI
     {
 
         [Inject] private GamePanelController _gamePanel;
-        [Inject] private GameConfig _gameConfig;
-        [Inject] private GameRound _gameRound;
+        [Inject] private GameRoundModel _gameRoundModel;
+        [Inject] private GameRoundController _gameRoundController;
         
         public MainMenuController(MainMenuView view) : base(view)
         {
@@ -39,8 +39,8 @@ namespace VantasticKick.UI
         private void OnPlayClick()
         {
             Close();
-            _gameRound.Clear();
-            _gamePanel.Open(_gameRound);
+            _gameRoundController.StartRound();
+            _gamePanel.Open(_gameRoundModel);
         }
     }
 }

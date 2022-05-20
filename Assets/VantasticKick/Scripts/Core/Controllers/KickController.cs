@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using VantasticKick.Config;
 using VantasticKick.Core.Input;
 using Zenject;
 
@@ -12,8 +13,9 @@ namespace VantasticKick.Core
         [SerializeField] private Transform _ballOriginPosition;
 
         [Inject] private IGameInput _input;
-        [Inject] private GameRound _gameRound;
+        [Inject] private GameRoundModel gameRoundModel;
         [Inject] private GameRoundController _gameRoundController;
+        [Inject] private GameConfig _config;
         void Start()
         {
             _direction.gameObject.SetActive(false);
@@ -26,15 +28,16 @@ namespace VantasticKick.Core
             _ball.angularVelocity = Vector3.zero;
         }
         
-        public void Activate()
+        public void ActivateTargeting()
         {
             _direction.gameObject.SetActive(true);
             _input.OnTarget += OnTarget;
             _input.OnTargetRelease += OnTargetingRelease;
         }
 
-        public void Deactivate()
+        public void DeactivateTargeting()
         {
+            StopAllCoroutines();
             _direction.gameObject.SetActive(false);
             _input.OnTarget -= OnTarget;
             _input.OnTargetRelease -= OnTargetingRelease;
@@ -42,16 +45,21 @@ namespace VantasticKick.Core
 
         private void OnTarget(Vector3 value)
         {
-            float xAngle = 20 - value.y * 15;
+            float xAngle = 20 + value.y * 15;
             float yAngle = value.x * 45;
             
-            _direction.rotation = Quaternion.Euler(-1 * xAngle, yAngle,0);
+            _direction.rotation = Quaternion.Euler(-1*xAngle, yAngle,0);
         }
 
         private void OnTargetingRelease()
         {
-            _ball.velocity = _direction.forward * 12f;
-            _gameRoundController.FinishKick();
+            var velocity = _direction.forward * _config.gameplay.ballVelocity;
+            var xScatter = Random.Range(-_config.gameplay.scatterFactor, _config.gameplay.scatterFactor);
+            var yScatter = Random.Range(-_config.gameplay.scatterFactor, _config.gameplay.scatterFactor);
+            velocity += new Vector3(xScatter, yScatter, 0);
+            _ball.velocity = velocity;
+            
+            _gameRoundController.FinishTargeting();
             StartCoroutine(WaitForFail());
         }
 
@@ -59,20 +67,20 @@ namespace VantasticKick.Core
         {
             StopAllCoroutines();
             StartCoroutine(FinishKick());
-            _gameRound.RegisterShot(true);
+            gameRoundModel.RegisterShot(true);
         }
 
         private IEnumerator WaitForFail()
         {
             yield return new WaitForSeconds(3f);
-            _gameRound.RegisterShot(false);
-            _gameRoundController.ResetKick();
+            gameRoundModel.RegisterShot(false);
+            _gameRoundController.FinishKick();
         }
 
         private IEnumerator FinishKick()
         {
             yield return new WaitForSeconds(1f);
-            _gameRoundController.ResetKick();
+            _gameRoundController.FinishKick();
         }
     }
 }
