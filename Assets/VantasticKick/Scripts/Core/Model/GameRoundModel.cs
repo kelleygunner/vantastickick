@@ -4,28 +4,34 @@ using VantasticKick.UI.UiFramework;
 
 namespace VantasticKick.Core
 {
-    public class GameRound : UiModel
+    public class GameRoundModel : UiModel
     {
         public Action<int,int> OnAttemptsChanged;
         public Action<int,int> OnScoreChanged;
         public Action<int> OnCombo;
         public Action OnRoundFinish;
+        
+        public int Score => _score;
+        public int Attempts => _attempts;
+        public int MaxAttempts => _maxAttempts;
 
         private GameConfig _gameConfig;
         private int _attempts;
+        private int _maxAttempts;
         private int _lastShotScore;
         private int _score;
         private int _combo;
 
-        public GameRound(GameConfig config)
+        public GameRoundModel(GameConfig config)
         {
             _gameConfig = config;
+            _maxAttempts = _gameConfig.gameround.attempts;
             Clear();
         }
 
         public void UpdateRound()
         {
-            OnAttemptsChanged?.Invoke(_attempts, _gameConfig.gameround.attempts);
+            OnAttemptsChanged?.Invoke(_attempts, _maxAttempts);
             OnScoreChanged?.Invoke(_lastShotScore,_score);
             OnCombo?.Invoke(_combo);
 

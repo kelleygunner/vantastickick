@@ -18,7 +18,7 @@ namespace VantasticKick.Installers
 
             Container.Bind<MainMenuController>().FromNew().AsSingle().NonLazy();
             Container.Bind<GamePanelController>().FromNew().AsSingle().NonLazy();
-            Container.Bind<FinishScreenModel>().FromNew().AsSingle().NonLazy();
+            Container.Bind<FinishScreenController>().FromNew().AsSingle().NonLazy();
         }
 
         public override void Start()

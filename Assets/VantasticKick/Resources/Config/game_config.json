@@ -1,8 +1,8 @@
 {
   "gameplay": 
   {
-    "ballVelocity":1.0,
-    "scatterFactor":1.0
+    "ballVelocity" : 14.0,
+    "scatterFactor" : 1.0
   },
   "gameround":
   {

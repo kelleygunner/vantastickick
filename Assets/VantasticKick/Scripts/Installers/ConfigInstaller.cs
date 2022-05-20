@@ -10,6 +10,8 @@ namespace VantasticKick.Installers
         {
             var gameConfig = GameConfig.LoadAt("Config/game_config");
             Container.Bind<GameConfig>().FromInstance(gameConfig).AsSingle().NonLazy();
+
+            Application.targetFrameRate = 60;
         }
     }
 }

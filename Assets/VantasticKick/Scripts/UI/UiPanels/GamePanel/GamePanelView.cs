@@ -24,7 +24,7 @@ namespace VantasticKick.UI
         {
             gameObject.SetActive(true);
             
-            if (_model is GameRound gameRound)
+            if (_model is GameRoundModel gameRound)
             {
                 gameRound.OnAttemptsChanged += OnAttemptsChanged;
                 gameRound.OnScoreChanged += OnScoreChanged;
@@ -43,7 +43,7 @@ namespace VantasticKick.UI
 
         protected override void OnClose(Action onComplete = null)
         {
-            if (_model is GameRound gameRound)
+            if (_model is GameRoundModel gameRound)
             {
                 gameRound.OnAttemptsChanged -= OnAttemptsChanged;
                 gameRound.OnScoreChanged -= OnScoreChanged;
