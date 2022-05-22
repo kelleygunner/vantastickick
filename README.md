@@ -87,6 +87,6 @@ Project is pretty easy and it can be easily played (I asked 8-year-old child to 
 Only one thing can have possible problems is Input Control. For enerprise version I would suggest to add a small tutor
 that can help to get into the input control to prevent users drop because they don't understand how to kick the ball.
 # Performance and Optimization
-Processor: update methods aren't used (Input only)
-Memory: there are no Instantiations and Destroy, Object Pool
-Graphics and shaders: No optimization (Prototype version)
+- Processor: update methods aren't used (Input only)
+- Memory: there are no Instantiations and Destroy, Object Pool
+- Graphics and shaders: No optimization (Prototype version)
