@@ -27,7 +27,7 @@ There are 3 Installers:
 - Dependency Inversion pattern
 - MVC pattern
 - SOLID principles
-# Technologies
+# Third party Technologies
 - Extenject (ex. Zenject)
 - DOTween
 - Json.Net
