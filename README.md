@@ -83,6 +83,6 @@ makes game not to lag while garbage collection. Except the instantiation of poin
 scores and hit targets. For enterprise version I would suggest to use Pool of Objects pattern to exclude these
 allocations and garbage collecting to avoid any possible lags and make game as smooth as possible.
 # Game Experince
-Project is pretty easy and it can be easily played (I asked 8-year-old child to play) be eveyone.
+Project is pretty easy and it can be easily played (I asked 8-year-old child to play) by eveyone.
 Only one thing can have possible problems is Input Control. For enerprise version I would suggest to add a small tutor
-that can help to get into the input control to prevent users drop because they didn't understand how to target ball.
+that can help to get into the input control to prevent users drop because they don't understand how to kick the ball.
