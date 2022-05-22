@@ -67,7 +67,7 @@ multifunctional logic.
 Game is adjustable. There is a config file which is presented as a JSON.
 1. Gameplay:
 - Ball Velocity, velocity multiplier
-- Scatter Factor, represents a random scatter
+- Scatter Factor, changes direction randomly
 2. Game round:
 - Attempts" : 10, number of attempt per game round
 - BasicPoints : 50, point given to user for regular scoring 
