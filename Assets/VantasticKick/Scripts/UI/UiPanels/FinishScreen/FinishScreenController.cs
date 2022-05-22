@@ -1,3 +1,5 @@
+using System;
+using UnityEngine;
 using VantasticKick.UI.UiFramework;
 using Zenject;
 
@@ -25,6 +27,10 @@ namespace VantasticKick.UI
             {
                 view.OnFinishButtonClick -= OnFinishButtonClick;
             }
+
+            //Clear memory allocated during a game round 
+            Resources.UnloadUnusedAssets();
+            GC.Collect();
         }
 
         private void OnFinishButtonClick()

@@ -11,7 +11,7 @@ namespace VantasticKick.Core.Input
 
         private Vector3 _startPosition;
 
-        private float _sensity = 20f;
+        private float _sensity = 15f;
 
         private void Update()
         {
@@ -25,7 +25,7 @@ namespace VantasticKick.Core.Input
             {
                 var value = _sensity * (UnityEngine.Input.mousePosition - _startPosition)/Screen.width;
                 value.x = Mathf.Clamp(value.x, -1f, 1f);
-                value.y = Mathf.Clamp(value.y, -1f, 1f);
+                value.y = Mathf.Clamp(value.y, 0, 1f);
                 OnTarget?.Invoke(value);
             }
             
