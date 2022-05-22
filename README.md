@@ -63,3 +63,13 @@ So we can avoid using View classes (which are MonoBehaviours) to test Business l
 The project follows SOLID principles where it's really needed (There are no complications).
 Most of the classes have only one responsibility. They don't have direct connections between each other. They arent overloaded by
 multifunctional logic.
+# Configuration
+Game is adjustable. There is a config file which is presented as a JSON.
+  1. gameplay:
+    - "ballVelocity" : 14.0 - velocity multiplier
+    - "scatterFactor" : 0.2 - represents a random scatter
+  2. gameround:
+    "attempts":10 - number of attempt per game round
+    "basicPoints":50 - point given to user for regular scoring 
+    "targetPoints":100 - ponts given to user for hitting a target
+    "comboBonusPoints":[0,20,50,150,400] - extra points given to player for hitting a target in row
