@@ -73,3 +73,9 @@ Game is adjustable. There is a config file which is presented as a JSON.
 - BasicPoints : 50, point given to user for regular scoring 
 - TargetPoints : 100, ponts given to user for hitting a target
 - Combo Bonus Points : [0,20,50,150,400], extra points given to player for hitting a target in row
+# Scenes and Memory structure
+The project isn't too big, so no needs to have multiple scenes for managing memory.
+All objects are preloaded in the Main scene and there no new allocations and cleanings, it
+makes game not to lag while garbage collection. Except the instantiation of points when player
+scores and hit targets. For interprise version I would suggest to use Pool of Objects pattern to exclude these
+allocations and garbage collecting to avoid any possible lags and make game as smooth as possible.
