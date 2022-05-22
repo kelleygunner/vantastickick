@@ -76,7 +76,7 @@ Game is adjustable. There is a JSON config file.
 Config is being loaded from Resources, but can be easily loaded from server that let us manage game experience
 without client update.
 For enterprise version I would suggest to implemet loadable config file assosiated with analytics groups for a/b tests.
-# Scenes and Memory structure
+# Scenes and Memory usage
 The project isn't too big, so no needs to have multiple scenes for managing memory.
 All objects are preloaded in the Main scene and there no new allocations and cleanings, it
 makes game not to lag while garbage collection. Except the instantiation of points when player
@@ -86,3 +86,7 @@ allocations and garbage collecting to avoid any possible lags and make game as s
 Project is pretty easy and it can be easily played (I asked 8-year-old child to play) by eveyone.
 Only one thing can have possible problems is Input Control. For enerprise version I would suggest to add a small tutor
 that can help to get into the input control to prevent users drop because they don't understand how to kick the ball.
+# Performance and Optimization
+Processor: update methods aren't used (Input only)
+Memory: there are no Instantiations and Destroy, Object Pool
+Graphics and shaders: No optimization (Prototype version)
