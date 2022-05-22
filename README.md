@@ -80,7 +80,7 @@ For enterprise version I would suggest to implemet loadable config file assosiat
 The project isn't too big, so no needs to have multiple scenes for managing memory.
 All objects are preloaded in the Main scene and there no new allocations and cleanings, it
 makes game not to lag while garbage collection. Except the instantiation of points when player
-scores and hit targets. For enterprise version I would suggest to use Pool of Objects pattern to exclude these
+scores and hit targets. (!Update: Already added) For enterprise version I would suggest to use Pool of Objects pattern to exclude these
 allocations and garbage collecting to avoid any possible lags and make game as smooth as possible.
 # Game Experince
 Project is pretty easy and it can be easily played (I asked 8-year-old child to play) by eveyone.
