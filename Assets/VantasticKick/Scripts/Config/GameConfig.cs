@@ -32,6 +32,7 @@ namespace VantasticKick.Config
     {
         public int attempts = 10;
         public int basicPoints = 100;
+        public int targetPoints = 100;
         public int[] comboBonusPoints = {0, 50, 100, 200, 500};
     }
 }

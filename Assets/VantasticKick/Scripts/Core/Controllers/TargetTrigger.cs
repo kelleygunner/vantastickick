@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using VantasticKick.Core;
+using VantasticKick.Core.Audio;
 using Zenject;
 
 public class TargetTrigger : MonoBehaviour
@@ -11,6 +12,7 @@ public class TargetTrigger : MonoBehaviour
     [SerializeField] private ParticleSystem _effect;
     
     [Inject] private KickController _kickController;
+    [Inject] private IAudioManager _audioManager;
 
     public void Open()
     {
@@ -25,8 +27,9 @@ public class TargetTrigger : MonoBehaviour
     
     private void OnTriggerEnter(Collider collider)
     {
-        _kickController.CompleteTarget();
+        _kickController.HitTarget(collider.transform.position);
         Close();
+        _audioManager.PlayClip(AudioClipType.Target);
         _effect.Emit(50);
     }
 }

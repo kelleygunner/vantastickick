@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using VantasticKick.Config;
 using VantasticKick.UI.UiFramework;
 
@@ -10,7 +11,9 @@ namespace VantasticKick.Core
         public Action<int,int> OnScoreChanged;
         public Action<int> OnCombo;
         public Action OnRoundFinish;
-        
+        public Action<int,Vector3> OnGoalScoredAt;
+        public Action<int,Vector3> OnHitTargetAt;
+
         public int Score => _score;
         public int Attempts => _attempts;
         public int MaxAttempts => _maxAttempts;
@@ -18,63 +21,83 @@ namespace VantasticKick.Core
         private GameConfig _gameConfig;
         private int _attempts;
         private int _maxAttempts;
-        private int _lastShotScore;
+        private int _shotScore;
+        private int _targetScore;
         private int _score;
         private int _combo;
+        
 
         public GameRoundModel(GameConfig config)
         {
             _gameConfig = config;
             _maxAttempts = _gameConfig.gameround.attempts;
-            Clear();
         }
 
-        public void UpdateRound()
+        public void CalculateKick()
         {
-            OnAttemptsChanged?.Invoke(_attempts, _maxAttempts);
-            OnScoreChanged?.Invoke(_lastShotScore,_score);
-            OnCombo?.Invoke(_combo);
+            var kickScore = _shotScore + _targetScore;
+            _score += kickScore;
 
-            if (_attempts == _gameConfig.gameround.attempts)
+            if (_targetScore > 0)
             {
-                OnRoundFinish?.Invoke();
-            }
-        }
-
-        public void RegisterShot(bool isOnTarget)
-        {
-            _lastShotScore = 0;
-            if (isOnTarget)
-            {
-                _lastShotScore += _gameConfig.gameround.basicPoints;
-                
-                int lastComboIndex = _gameConfig.gameround.comboBonusPoints.Length - 1;
-                if (_combo > lastComboIndex)
-                {
-                    _lastShotScore += _gameConfig.gameround.comboBonusPoints[lastComboIndex];
-                }
-                else
-                {
-                    _lastShotScore += _gameConfig.gameround.comboBonusPoints[_combo];
-                }
                 _combo++;
             }
             else
             {
                 _combo = 0;
             }
-
-            _attempts++;
-            _score += _lastShotScore;
             
-            UpdateRound();
+            OnAttemptsChanged?.Invoke(_attempts, _maxAttempts);
+            OnScoreChanged?.Invoke(kickScore,_score);
+            OnCombo?.Invoke(_combo);
+            OnAttemptsChanged?.Invoke(_attempts, _maxAttempts);
+            if (_attempts == _gameConfig.gameround.attempts)
+            {
+                OnRoundFinish?.Invoke();
+            }
+        }
+
+        public void StartKick()
+        {
+            _shotScore = 0;
+            _targetScore = 0;
+            _attempts++;
+        }
+
+        public void CompleteKick()
+        {
+            CalculateKick();
+        }
+
+        public void ScoreGoal(Vector3 position)
+        {
+            _shotScore += _gameConfig.gameround.basicPoints;
+            OnGoalScoredAt?.Invoke(_gameConfig.gameround.basicPoints,position);
+        }
+        
+        public void AddTarget(Vector3 position)
+        {
+            _targetScore += _gameConfig.gameround.targetPoints;
+                
+            int lastComboIndex = _gameConfig.gameround.comboBonusPoints.Length - 1;
+            if (_combo > lastComboIndex)
+            {
+                _targetScore += _gameConfig.gameround.comboBonusPoints[lastComboIndex];
+            }
+            else
+            {
+                _targetScore += _gameConfig.gameround.comboBonusPoints[_combo];
+            }
+
+            OnHitTargetAt(_targetScore, position);
         }
 
         public void Clear()
         {
             _attempts = 0;
             _score = 0;
-            _lastShotScore = 0;
+            _shotScore = 0;
+            _targetScore = 0;
             _combo = 0;
         }
     }

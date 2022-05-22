@@ -31,7 +31,7 @@ namespace VantasticKick.UI
                 gameRound.OnCombo += OnCombo;
                 gameRound.OnRoundFinish += OnRoundFinish;
                 
-                gameRound.UpdateRound();
+                gameRound.CalculateKick();
             }
 
             _statPanel.anchoredPosition = 200 * Vector3.up;

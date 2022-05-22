@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using VantasticKick.Config;
+using VantasticKick.Core.Audio;
 using VantasticKick.Core.Input;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace VantasticKick.Core
 {
@@ -16,6 +19,7 @@ namespace VantasticKick.Core
         [Inject] private GameRoundModel gameRoundModel;
         [Inject] private GameRoundController _gameRoundController;
         [Inject] private GameConfig _config;
+        [Inject] private IAudioManager _audioManager;
         void Start()
         {
             _direction.gameObject.SetActive(false);
@@ -31,7 +35,7 @@ namespace VantasticKick.Core
         public void ActivateTargeting()
         {
             _direction.gameObject.SetActive(true);
-            _input.OnTarget += OnTarget;
+            _input.OnTarget += OnTargeting;
             _input.OnTargetRelease += OnTargetingRelease;
         }
 
@@ -39,41 +43,35 @@ namespace VantasticKick.Core
         {
             StopAllCoroutines();
             _direction.gameObject.SetActive(false);
-            _input.OnTarget -= OnTarget;
+            _input.OnTarget -= OnTargeting;
             _input.OnTargetRelease -= OnTargetingRelease;
         }
 
-        private void OnTarget(Vector3 value)
+        private void OnTargeting(Vector3 valueFromInput)
         {
-            float xAngle = 20 + value.y * 15;
-            float yAngle = value.x * 45;
-            
-            _direction.rotation = Quaternion.Euler(-1*xAngle, yAngle,0);
+            _direction.rotation = BallDirector.GetBallDirectionFromInput(valueFromInput);
         }
 
         private void OnTargetingRelease()
         {
-            var velocity = _direction.forward * _config.gameplay.ballVelocity;
-            var xScatter = Random.Range(-_config.gameplay.scatterFactor, _config.gameplay.scatterFactor);
-            var yScatter = Random.Range(-_config.gameplay.scatterFactor, _config.gameplay.scatterFactor);
-            velocity += new Vector3(xScatter, yScatter, 0);
-            _ball.velocity = velocity;
-            
+            BallDirector.SetBallVelocity(_ball, _direction.forward, _config.gameplay);
             _gameRoundController.FinishTargeting();
+            _audioManager.PlayClip(AudioClipType.Kick);
+            
+            gameRoundModel.StartKick();
             StartCoroutine(WaitForFail());
         }
 
-        public void CompleteTarget()
+        public void HitTarget(Vector3 position)
         {
             StopAllCoroutines();
             StartCoroutine(FinishKick());
-            gameRoundModel.RegisterShot(true);
+            gameRoundModel.AddTarget(position);
         }
 
         private IEnumerator WaitForFail()
         {
             yield return new WaitForSeconds(3f);
-            gameRoundModel.RegisterShot(false);
             _gameRoundController.FinishKick();
         }
 
