@@ -64,7 +64,7 @@ The project follows SOLID principles where it's really needed (There are no comp
 Most of the classes have only one responsibility. They don't have direct connections between each other. They arent overloaded by
 multifunctional logic.
 # Configuration
-Game is adjustable. There is a config file which is presented as a JSON.
+Game is adjustable. There is a JSON config file.
 1. Gameplay:
 - Ball Velocity, velocity multiplier
 - Scatter Factor, changes direction randomly
@@ -72,10 +72,17 @@ Game is adjustable. There is a config file which is presented as a JSON.
 - Attempts" : 10, number of attempt per game round
 - BasicPoints : 50, point given to user for regular scoring 
 - TargetPoints : 100, ponts given to user for hitting a target
-- Combo Bonus Points : [0,20,50,150,400], extra points given to player for hitting a target in row
+- Combo Bonus Points : [0,20,50,150,400], extra points given to player for hitting targets in row.
+Config is being loaded from Resources, but can be easily loaded from server that let us manage game experience
+without client update.
+For enterprise version I would suggest to implemet loadable config file assosiated with analytics groups for a/b tests.
 # Scenes and Memory structure
 The project isn't too big, so no needs to have multiple scenes for managing memory.
 All objects are preloaded in the Main scene and there no new allocations and cleanings, it
 makes game not to lag while garbage collection. Except the instantiation of points when player
-scores and hit targets. For interprise version I would suggest to use Pool of Objects pattern to exclude these
+scores and hit targets. For enterprise version I would suggest to use Pool of Objects pattern to exclude these
 allocations and garbage collecting to avoid any possible lags and make game as smooth as possible.
+# Game Experince
+Project is pretty easy and it can be easily played (I asked 8-year-old child to play) be eveyone.
+Only one thing can have possible problems is Input Control. For enerprise version I would suggest to add a small tutor
+that can help to get into the input control to prevent users drop because they didn't understand how to target ball.
