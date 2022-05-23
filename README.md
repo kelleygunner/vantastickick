@@ -36,20 +36,20 @@ There are 3 Installers:
 - DI.
 The architecture design is based on the 5th SOLID principle - Dependency Inversion.
 Classes don't have direct dependencies to other classes but use an interface of communication, so
-DI container provides with implementations. Extenject (ex. Zenject) is used as DI container plugin.
+DI container provides with implementations. Extenject (ex. Zenject) is used as a DI container plugin.
 - MVC. 
 MVC variation is used to detach business logic from visual elements. There is a loop: 
 Controller -> Model -> View -> Controler.
-For example user makes a shot, so
+For example user makes a shot, than
 1. Controller checks if it reaches a target and update Model.
 2. Model calculates score, combo etc and updates View
-3. View shows animations, updates score counters etc, than updates controller, that
-visual part is done, so controller can handle user input again.
+3. View shows animations, updates score counters etc, than notifies the controller, that
+visual part is done, so the controller can handle user input again.
 - UI.
-For making each UI screen to be easier there is UiFramework, that provides abstract classes:
-UiController -> UiModel -> UiView.
+For having each Screen to be easily implemented there is a Ui Framework, that provides abstract classes:
+UiController - UiModel - UiView.
 In order to add a new screen, developer should create 3 child classes (Model could be null),
-and override OnOpen and OnClose methods in View class to visually show the screen.
+and override OnOpen and OnClose methods in View class with visual openning the screen.
 To Implement MVC (read above) View subscribes to Model, Controller subscribes to View.
 Controller can directly change Model;
 - MonoBehaviour vs NonMonoBehavour classes.
@@ -69,10 +69,10 @@ Game is adjustable. There is a JSON config file.
 - Ball Velocity, velocity multiplier
 - Scatter Factor, changes direction randomly
 2. Game round:
-- Attempts" : 10, number of attempt per game round
-- BasicPoints : 50, point given to user for regular scoring 
-- TargetPoints : 100, ponts given to user for hitting a target
-- Combo Bonus Points : [0,20,50,150,400], extra points given to player for hitting targets in row.
+- Attempts, number of attempt per game round
+- BasicPoints, point given to user for regular scoring 
+- TargetPoints, ponts given to user for hitting a target
+- Combo Bonus Points ([0,20,50,150,400]), an array of extra points given to player for hitting targets in row.
 Config is being loaded from Resources, but can be easily loaded from server that let us manage game experience
 without client update.
 For enterprise version I would suggest to implemet loadable config file assosiated with analytics groups for a/b tests.
@@ -80,13 +80,8 @@ For enterprise version I would suggest to implemet loadable config file assosiat
 The project isn't too big, so no needs to have multiple scenes for managing memory.
 All objects are preloaded in the Main scene and there no new allocations and cleanings, it
 makes game not to lag while garbage collection. Except the instantiation of points when player
-scores and hit targets. (!Update: Already added) For enterprise version I would suggest to use Pool of Objects pattern to exclude these
-allocations and garbage collecting to avoid any possible lags and make game as smooth as possible.
+scores and hit targets. (!Update: Object Pool is already implemented) For enterprise version I would suggest to use Pool of Objects pattern to exclude these allocations and garbage collecting to avoid any possible lags and make game as smooth as possible.
 # Game Experince
-Project is pretty easy and it can be easily played (I asked 8-year-old child to play) by eveyone.
-Only one thing can have possible problems is Input Control. For enerprise version I would suggest to add a small tutor
-that can help to get into the input control to prevent users drop because they don't understand how to kick the ball.
-# Performance and Optimization
-- Processor: update methods aren't used (Input only)
-- Memory: there are no Instantiations and Destroy, Object Pool
-- Graphics and shaders: No optimization (Prototype version)
+Project is pretty easy and it can be played (I asked a 8-year-old child to play) by eveyone.
+Only one thing that can have possible problems is an Input Control. For enerprise version I would suggest to add a small tutor
+that can help player to get into the input control to prevent users drop because they don't understand how to kick the ball.
